@@ -14,8 +14,7 @@ def sign_up(k):
     header = {"accept-encoding": "gzip, deflate",
          "content-type": "application/json; charset=utf-8",
         
-            "cookie": '_ga=GA1.1.418201028.1641224508; _fbp=fb.1.1641224509340.1058958369; _ga_6C93RLFG30=GS1.1.1641224507.1.1.1641224515.0; _ga_H6Q8L0FGFB=GS1.1.1641224508.1.1.1641224515.0; _ga_YJTZ96DES0=GS1.1.1641224508.1.1.1641224515.0; _ga_QW2R1VMDSF=GS1.1.1641224508.1.1.1641224515.0; _ga_Q61Z137B5R=GS1.1.1641224508.1.1.1641224515.0; _ga_9DE6ZQVNSE=GS1.1.1641224508.1.1.1641224515.0',
-            
+          
             "content-type": "application/json",
         
             "referer": f"https://vconomics.io/en/sign-up?ref={code_ref}",
