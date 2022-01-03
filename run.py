@@ -101,7 +101,7 @@ if __name__ == '__main__':
     global prefix
     global password
     print("[*] Auto Creator Vconomics!")
-    prefix = input("[*] Main Email: ")
+    prefix = input("[*] Main Email (Using domain @tafmail.com): ")
     password = input("[*] Password: ")
     jumlah = input("[*] Multiprocessing: ")
     with open('password.txt','w') as f:
