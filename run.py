@@ -14,12 +14,13 @@ def sign_up(k):
     header = {"accept-encoding": "gzip, deflate",
          "content-type": "application/json; charset=utf-8",
         
-          
+            "cookie": '_ga=GA1.1.418201028.1641224508; _fbp=fb.1.1641224509340.1058958369; _ga_6C93RLFG30=GS1.1.1641224507.1.1.1641224515.0; _ga_H6Q8L0FGFB=GS1.1.1641224508.1.1.1641224515.0; _ga_YJTZ96DES0=GS1.1.1641224508.1.1.1641224515.0; _ga_QW2R1VMDSF=GS1.1.1641224508.1.1.1641224515.0; _ga_Q61Z137B5R=GS1.1.1641224508.1.1.1641224515.0; _ga_9DE6ZQVNSE=GS1.1.1641224508.1.1.1641224515.0',
+            
             "content-type": "application/json",
         
             "referer": f"https://vconomics.io/en/sign-up?ref={code_ref}",
             
-            "user-agent": 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+            "user-agent": f'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/{random.randint(100,999)}.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/{random.randint(100,999)}.1',
             "Host": "vconomics.io",
             "Origin": "https://vconomics.io"
 
@@ -67,7 +68,7 @@ def sign_up(k):
     while True:
         if status == False:
             break
-        if n == 100:
+        if n == 10:
             print("[*] Verification Failed!")
             break
         URL = f'https://getnada.com/api/v1/inboxes/{email}'
@@ -92,7 +93,7 @@ def sign_up(k):
             break
         except IndexError:
             
-            print(f"[*] [{email} Your Email doesn't have a new message, Reload!")
+            print(f"[*] [{email}] Your Email doesn't have a new message, Reload!")
             n = n+1
      
 
@@ -100,7 +101,7 @@ if __name__ == '__main__':
     global prefix
     global password
     print("[*] Auto Creator Vconomics!")
-    prefix = input("[*] Main Email (Using domain @tafmail.com): ")
+    prefix = input("[*] Main Email: ")
     password = input("[*] Password: ")
     jumlah = input("[*] Multiprocessing: ")
     with open('password.txt','w') as f:
