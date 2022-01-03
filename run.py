@@ -60,8 +60,8 @@ def sign_up(k):
             print(f"[*] [{email}] Internal Server Error: Reload!")  
         
         elif res["message"] == "UN_DETECTED_ERROR":
-            print(f"[*] [{email} "+res["message"]) 
-            break
+            print(f"[*] [{email} CHANGE IP!!! "+res["message"]) 
+            quit()
         else:
             break
     n=1
