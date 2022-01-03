@@ -13,3 +13,11 @@ A tool that can reffering automatically Vconomics. Logic: Regis - Get Code by Ge
     3. Run the script
     
     4. Please use domain @tafmail.com
+
+# Libs:
+    
+    1. pip install bs4
+    
+    2. pip install requests
+    
+    3. pip install json
