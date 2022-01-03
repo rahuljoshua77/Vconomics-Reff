@@ -50,13 +50,19 @@ def sign_up(k):
         r = requests.post('https://vconomics.io/identity/accounts/register/4', json={"userName": f"{email}","password": f"{password}","rePassword": f"{password}","fromReferralId": f"{code_ref}","fullName": f'{random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])}'},headers=header)
  
         soup = BeautifulSoup(r.text, 'html.parser')
-        if soup == "Internal Server Error":
+       
+        try:
+            res = json.loads(soup.text)
+             
+        except:
+            pass
+        if str(soup) == "Internal Server Error":
             print(f"[*] [{email}] Internal Server Error: Reload!")  
-        else:
-            break
-        res = json.loads(soup.text)
-        if res["message"] == "UN_DETECTED_ERROR":
+        
+        elif res["message"] == "UN_DETECTED_ERROR":
             print(f"[*] [{email} "+res["message"]) 
+            break
+        else:
             break
     n=1
     while True:
@@ -120,6 +126,6 @@ if __name__ == '__main__':
     with Pool(int(jumlah)) as p:  
         p.map(sign_up, k)
         
-    print(f"[*] {len(k)} Account Done Registrated!")
+    
     end = time.time()
     print("[*] Time elapsed: ", start - end)
