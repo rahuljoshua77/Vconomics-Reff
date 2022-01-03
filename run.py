@@ -43,37 +43,46 @@ def sign_up(k):
     while True:
         if n == 100:
             print(f"[*] [{email}] Internal Server Error: Finish!") 
-            status = False
+            status = "False"
             break
     
-        status = True
-        r = requests.post('https://vconomics.io/identity/accounts/register/4', json={"userName": f"{email}","password": f"{password}","rePassword": f"{password}","fromReferralId": f"{code_ref}","fullName": f'{random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])}'},headers=header)
+         
+        s = requests.Session()
+        r = s.post('https://vconomics.io/identity/accounts/register/4', json={"userName": f"{email}","password": f"{password}","rePassword": f"{password}","fromReferralId": f"{code_ref}","fullName": f'{random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])} {random.choice(["Bellamy","Nurman","Herman","Michael","Michelle","Jeniffer","Robby"])}'},headers=header)
  
         soup = BeautifulSoup(r.text, 'html.parser')
        
         try:
-            res = json.loads(soup.text)
-             
+            get_token = json.loads(soup.text)
+         
         except:
             pass
         try:
             if str(soup) == "Internal Server Error":
                 print(f"[*] [{email}] Internal Server Error: Reload!")  
             
-            elif res["message"] == "UN_DETECTED_ERROR":
-                print(f"[*] [{email} CHANGE IP!!! "+res["message"]) 
-                quit()
+            elif get_token["message"] == "UN_DETECTED_ERROR":
+                print(f"[*] [{email} CHANGE IP!!! "+get_token["message"]) 
+                status = "False"
+                break
+            elif get_token["messageCode"] == "EMAIL_ADDRESS_INVALID":
+                print(f"[*] [{email} CHANGE EMAIL!!! "+get_token["messageCode"]) 
+                status = "False"
+                break
+       
             else:
+                token = get_token['data']['token']
+                status = "True"
                 break
         except:
             pass
     n=1
     while True:
-        if status == False:
+        if status == "False":
             break
         if n == 10:
-            print("[*] Verification Failed!")
-            break
+            print(f"[*] [{email}] Verification Failed!")
+            quit()
         URL = f'https://getnada.com/api/v1/inboxes/{email}'
         r = requests.get(URL).json()
         #getting the latest message
@@ -90,16 +99,38 @@ def sign_up(k):
             text = get_data.split(r'<p style="color: #fa7800; font-weight: bold; text-align: center; font-size: 40px;">')
             text = text[1].split(r"</p>")
             get_code = text[0]
-            print(f"[*] [{email}] Code: {get_code.strip()}")
+            
+            print(f"[*] [{email}] OTP: {get_code.strip()}")
             with open('ress.txt','w') as f:
                 f.write(f"{email}|{get_code}\n")
+            headers = { 'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'en-US,en;q=0.9,id;q=0.8,zh;q=0.7,ko;q=0.6,ja;q=0.5,zh-CN;q=0.4',
+            'Content-Type': 'application/json',
+            'Host': 'vconomics.io',
+            'Origin': 'https://vconomics.io',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            'X-CULTURE-CODE': 'EN',
+            'X-VIA': "2",
+            }
+            r = s.post('https://vconomics.io/identity/tokens/verify-otp', json={ "otp": f"{get_code.strip()}","otpType": 1,"validateToken": f"{token}"},headers=headers)
+        
+            soup = BeautifulSoup(r.text, 'html.parser')
+            
+            try:
+                res = json.loads(soup.text)
+                
+                if res["messageCode"]=="VERIFY_OTP_SUCCESS":
+                    print(f"[*] [{email}] OTP Success")
+            except:
+                pass
+            
             break
         except IndexError:
             
             print(f"[*] [{email}] Your Email doesn't have a new message, Reload!")
             n = n+1
-     
-
+  
+    
 if __name__ == '__main__':
     global prefix
     global password
